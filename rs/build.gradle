@@ -19,12 +19,15 @@ android {
 }
 
 dependencies {
+    //    compile 'libs/google-play-services.jar'
     compile 'com.google.android.gms:play-services:4.1.32'
     compile files('libs/simple-xml-2.6.3.jar')
+//    compile files('libs/google-play-services.jar')
 }
 
 buildscript {
     dependencies {
+//        classpath 'libs/google-play-services.jar'
 //        classpath ''
     }
 }

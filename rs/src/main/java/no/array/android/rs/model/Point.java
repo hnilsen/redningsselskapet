@@ -19,7 +19,7 @@ public class Point {
         if(coordinates.split(",").length == 2 && coordinates.split(",")[0].length() > 0) {
             return Double.parseDouble(coordinates.split(",")[0]);
         } else {
-            Log.d(MainActivity.TAG, coordinates);
+            Log.d(MainActivity.TAG, "COORDINATES LONG: " + coordinates);
 
             return 0;
         }
@@ -29,6 +29,8 @@ public class Point {
         if(coordinates.split(",").length == 2 && coordinates.split(",")[1].length() > 0) {
             return Double.parseDouble(coordinates.split(",")[1]);
         } else {
+            Log.d(MainActivity.TAG, "COORDINATES  LAT: " + coordinates);
+
             return 0;
         }
     }

@@ -42,6 +42,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import no.array.android.rs.model.Document;
 import no.array.android.rs.model.Kml;
 import no.array.android.rs.model.Placemark;
 
@@ -80,28 +81,45 @@ public class MainActivity extends Activity {
     }
 
     private static void setMarkers(Kml kml) {
+        Kml rsKml = new Kml();
+        rsKml.setDocument(new Document());
+
+        // stations first
         for (Placemark placemark : kml.getDocument().getPlacemarks()) {
-            double mLat = placemark.getPoint().getLat();
-            double mLong = placemark.getPoint().getLong();
-
-            if (mLat != 0 || mLong != 0) {
-                int resource = mContext.getResources().getIdentifier(placemark.getStyle(), "drawable", mContext.getPackageName());
-                BitmapDescriptor bmd = BitmapDescriptorFactory.fromResource(resource);
-
-                MarkerOptions mo = new MarkerOptions();
-                mo.position(new LatLng(mLat, mLong));
-                mo.title(placemark.getName());
-
-                if (placemark.getStyle().contains("rs_")) { // bare vise beskrivelse for båtene (telefonnummer)
-                    mo.snippet(placemark.getDescription());
-                }
-
-                if (bmd != null) {
-                    mo.icon(bmd);
-                }
-
-                mMap.addMarker(mo);
+            if(placemark.getStyleUrl().contains("station")) {
+                addMarker(placemark);
+            } else {
+                rsKml.getDocument().addPlacemark(placemark);
             }
+        }
+
+        // then ships
+        for (Placemark placemark : rsKml.getDocument().getPlacemarks()) {
+            addMarker(placemark);
+        }
+    }
+
+    private static void addMarker(Placemark placemark) {
+        double mLat = placemark.getPoint().getLat();
+        double mLong = placemark.getPoint().getLong();
+
+        if (mLat != 0 || mLong != 0) {
+            int resource = mContext.getResources().getIdentifier(placemark.getStyle(), "drawable", mContext.getPackageName());
+            BitmapDescriptor bmd = BitmapDescriptorFactory.fromResource(resource);
+
+            MarkerOptions mo = new MarkerOptions();
+            mo.position(new LatLng(mLat, mLong));
+            mo.title(placemark.getName());
+
+            if (placemark.getStyle().contains("rs_")) { // bare vise beskrivelse for båtene (telefonnummer)
+                mo.snippet(placemark.getDescription());
+            }
+
+            if (bmd != null) {
+                mo.icon(bmd);
+            }
+
+            mMap.addMarker(mo);
         }
     }
 
