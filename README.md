@@ -1,4 +1,4 @@
 redningsselskapet
 =================
 
-Oversikt over redningsskjøytene og basene rundt kysten
+Oversikt over redningsskøytene og basene rundt kysten
