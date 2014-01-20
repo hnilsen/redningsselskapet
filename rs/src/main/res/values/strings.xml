@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Redningsselskapet</string>
+    <string name="title_item_detail">Item Detail</string>
+    <string name="update_not_online">Du er ikke tilkoblet nettverk. Data eller Wifi må være påslått.</string>
+    <string name="template_user_agent" translatable="false">"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.77 Safari/537.36 %1$s/%2$s"</string>
+</resources>
