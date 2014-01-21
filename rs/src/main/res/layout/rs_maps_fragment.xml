@@ -37,40 +37,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Din lokasjon"
+                android:text="Din lokasjon, nøyaktighet "
                 android:id="@+id/location_header"
-                android:fontFamily="sans-serif-light"
-                android:textSize="30sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Lengdegrad:"
-                android:id="@+id/location_label"
-                android:layout_below="@+id/location_lat_label"
                 android:fontFamily="sans-serif-thin"
-                android:textSize="24sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Breddegrad:"
-                android:id="@+id/location_lat_label"
-                android:layout_below="@+id/location_header"
-                android:fontFamily="sans-serif-thin"
-                android:textSize="24sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Nøyaktighet:"
-                android:id="@+id/location_accuracy_label"
-                android:layout_below="@+id/location_label"
-                android:fontFamily="sans-serif-thin"
-                android:textSize="24sp" />
+                android:textSize="18sp"
+                android:textAppearance="@android:style/TextAppearance.Medium" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -81,9 +52,9 @@
                 android:fontFamily="sans-serif-thin"
                 android:textColor="@android:color/black"
                 android:textSize="24sp"
-                android:layout_marginLeft="60dp"
-                android:layout_toRightOf="@+id/location_header"
-                android:layout_below="@+id/location_lat_label" />
+                android:layout_below="@+id/location_header"
+                android:layout_toRightOf="@+id/location_lat"
+                android:layout_marginLeft="18dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -91,12 +62,12 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="60.453 N"
                 android:id="@+id/location_lat"
-                android:layout_below="@+id/location_header"
-                android:layout_alignRight="@+id/location_long"
-                android:layout_alignEnd="@+id/location_long"
                 android:fontFamily="sans-serif-thin"
                 android:textColor="@android:color/black"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:layout_below="@+id/location_header"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -104,12 +75,11 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="49 meter"
                 android:id="@+id/location_accuracy"
-                android:layout_below="@+id/location_long"
-                android:layout_alignRight="@+id/location_lat"
-                android:layout_alignEnd="@+id/location_lat"
                 android:fontFamily="sans-serif-thin"
                 android:textColor="@android:color/black"
-                android:textSize="24sp" />
+                android:textSize="20sp"
+                android:layout_alignBottom="@+id/location_header"
+                android:layout_toRightOf="@+id/location_header" />
 
         </RelativeLayout>
 

@@ -55,6 +55,6 @@ public class MainActivity extends Activity {
     }
 
     private void setLocation() {
-        mMap.animateCamera(mLocation.getLatLngZoom(10));
+        mMap.animateCamera(mLocation.getLatLngZoom(9));
     }
 }
