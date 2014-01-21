@@ -1,6 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/map"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:name="com.google.android.gms.maps.MapFragment"/>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/map_container"
+            android:gravity="top"
+            android:layout_weight="1">
+
+            <fragment
+                android:id="@+id/map"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:name="com.google.android.gms.maps.MapFragment"
+                android:layout_alignParentEnd="false"
+                android:layout_alignParentStart="false" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:id="@+id/location_frame"
+            android:layout_below="@+id/map_container"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
+            android:layout_marginBottom="18dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Din lokasjon"
+                android:id="@+id/location_header"
+                android:fontFamily="sans-serif-light"
+                android:textSize="30sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Lengdegrad:"
+                android:id="@+id/location_label"
+                android:layout_below="@+id/location_lat_label"
+                android:fontFamily="sans-serif-thin"
+                android:textSize="24sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Breddegrad:"
+                android:id="@+id/location_lat_label"
+                android:layout_below="@+id/location_header"
+                android:fontFamily="sans-serif-thin"
+                android:textSize="24sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Nøyaktighet:"
+                android:id="@+id/location_accuracy_label"
+                android:layout_below="@+id/location_label"
+                android:fontFamily="sans-serif-thin"
+                android:textSize="24sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="5.234 Ø"
+                android:id="@+id/location_long"
+                android:fontFamily="sans-serif-thin"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                android:layout_marginLeft="60dp"
+                android:layout_toRightOf="@+id/location_header"
+                android:layout_below="@+id/location_lat_label" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="60.453 N"
+                android:id="@+id/location_lat"
+                android:layout_below="@+id/location_header"
+                android:layout_alignRight="@+id/location_long"
+                android:layout_alignEnd="@+id/location_long"
+                android:fontFamily="sans-serif-thin"
+                android:textColor="@android:color/black"
+                android:textSize="24sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="49 meter"
+                android:id="@+id/location_accuracy"
+                android:layout_below="@+id/location_long"
+                android:layout_alignRight="@+id/location_lat"
+                android:layout_alignEnd="@+id/location_lat"
+                android:fontFamily="sans-serif-thin"
+                android:textColor="@android:color/black"
+                android:textSize="24sp" />
+
+        </RelativeLayout>
+
+</LinearLayout>

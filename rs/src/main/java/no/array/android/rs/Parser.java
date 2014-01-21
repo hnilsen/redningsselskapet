@@ -21,11 +21,7 @@ import no.array.android.rs.model.Style;
  * Created by hakon on 20.01.14.
  */
 
-
 public class Parser extends DefaultHandler {
-    private ArrayList<Placemark> placemarks = new ArrayList<Placemark>();
-    private ArrayList<Style> styles = new ArrayList<Style>();
-
     private Placemark currentPlacemark = new Placemark();
     private Style currentStyle = new Style();
 
@@ -50,6 +46,7 @@ public class Parser extends DefaultHandler {
     boolean inSnippet = false;
     boolean inStyleUrl = false;
 
+    String currentString = "";
 
     @Override
     public void startDocument() throws SAXException {
@@ -112,41 +109,71 @@ public class Parser extends DefaultHandler {
      * </tag> */
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
+            // KML AND DOCUMENT
         if(localName.equalsIgnoreCase("kml")) {
             this.inKml = false;
         } else if(localName.equalsIgnoreCase("document")) {
             this.inDocument = false;
         } else if (localName.equalsIgnoreCase("name") && !this.inPlacemark) {
+            this.kml.getDocument().setName(currentString);
             this.inDocumentName = false;
         } else if (localName.equalsIgnoreCase("description") && !this.inPlacemark) {
+            this.kml.getDocument().setDescription(currentString);
             this.inDocumentDescription = false;
 
+            // STYLE
         } else if(localName.equalsIgnoreCase("style")) {
             this.inStyle = false;
             kml.getDocument().addStyle(currentStyle);
         } else if(localName.equalsIgnoreCase("iconstyle")) {
+            // we will set the iconstyle in "href"
             this.inIconStyle = false;
         } else if(localName.equalsIgnoreCase("icon")) {
+            // we will set the icon in "href"
             this.inIcon = false;
         } else if(localName.equalsIgnoreCase("href")) {
+            IconStyle iconStyle = new IconStyle();
+            Icon icon = new Icon();
+            icon.setHref(currentString);
+
+            iconStyle.setIcon(icon);
+            currentStyle.setIconStyle(iconStyle);
+
             this.inHref = false;
 
+            // PLACEMARK
         } else if(localName.equalsIgnoreCase("placemark")) {
-            this.inPlacemark = false;
             kml.getDocument().addPlacemark(currentPlacemark);
+            this.inPlacemark = false;
+
         } else if(localName.equalsIgnoreCase("name") && this.inPlacemark) {
+            currentPlacemark.setName(currentString);
             this.inPlaceMarkName = false;
+
         } else if(localName.equalsIgnoreCase("description") && this.inPlacemark) {
+            currentPlacemark.setDescription(currentString);
             this.inPlaceMarkDescription = false;
+
         } else if(localName.equalsIgnoreCase("snippet")) {
+            currentPlacemark.setSnippet(currentString);
             this.inSnippet = false;
+
         } else if(localName.equalsIgnoreCase("point")) {
+            // we will set the point in "coordinates"
             this.inPoint = false;
+
         } else if(localName.equalsIgnoreCase("coordinates")) {
+            Point point = new Point();
+            point.setCoordinates(currentString);
+            currentPlacemark.setPoint(point);
             this.inCoordinates = false;
+
         } else if(localName.equalsIgnoreCase("styleurl")) {
+            currentPlacemark.setStyleUrl(currentString);
             this.inStyleUrl = false;
         }
+
+        currentString = "";
     }
 
     @Override
@@ -155,31 +182,21 @@ public class Parser extends DefaultHandler {
         String str = new String(ch, start, length);
 
         if(this.inDocumentName && !this.inPlacemark) {
-            this.kml.getDocument().setName(str);
+            currentString += str;
         } else if(this.inDocumentDescription && !this.inPlacemark) {
-            this.kml.getDocument().setDescription(str);
-
+            currentString += str;
         } else if(this.inHref) {
-            IconStyle iconStyle = new IconStyle();
-            Icon icon = new Icon();
-            icon.setHref(str);
-
-            iconStyle.setIcon(icon);
-            currentStyle.setIconStyle(iconStyle);
-
+            currentString += str;
         } else if(this.inPlaceMarkName) {
-            currentPlacemark.setName(str);
+            currentString += str;
         } else if(this.inPlaceMarkDescription) {
-            currentPlacemark.setDescription(str);
+            currentString += str;
         } else if(this.inSnippet) {
-            currentPlacemark.setSnippet(str);
+            currentString += str;
         } else if(this.inStyleUrl) {
-            // TODO link to style image here??
-            currentPlacemark.setStyleUrl(str);
+            currentString += str;
         } else if(this.inCoordinates) {
-            Point point = new Point();
-            point.setCoordinates(str);
-            currentPlacemark.setPoint(point);
+            currentString += str;
         }
     }
 
