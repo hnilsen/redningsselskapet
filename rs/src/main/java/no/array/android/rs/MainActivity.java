@@ -6,21 +6,31 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import no.array.android.rs.interfaces.RefreshLocationListener;
+import no.array.android.rs.kml.KMLParser;
 
 /**
  * Created by hakon on 19.01.14.
  */
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements RefreshLocationListener {
     public static String TAG = "RS";
     public static Boolean DEBUG = true;
     static GoogleMap mMap;
     static MapLocation mLocation;
+    private boolean mHasGottenFirstLocationUpdate = false;
+    Marker mBoatMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mLocation = new MapLocation(this);
+        mLocation = new MapLocation(this, this);
         setContentView(R.layout.rs_maps_fragment);
     }
 
@@ -30,10 +40,31 @@ public class MainActivity extends Activity {
 
         if (mMap == null) {
             mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+            // my position might not be necessary
+            //mMap.setMyLocationEnabled(true);
             KMLParser.updateData(mMap, this);
-            setLocation();
             updatePositionFields();
         }
+    }
+
+    private void setBoatMarker() {
+        MarkerOptions mo = new MarkerOptions();
+        mo.position(mLocation.getLatLng());
+        mo.title("Min båt");
+
+        BitmapDescriptor bmd = BitmapDescriptorFactory.fromResource(R.drawable.ic_boat);
+        mo.icon(bmd);
+
+        if(mBoatMarker != null) {
+            mBoatMarker.remove();
+        }
+        mBoatMarker = mMap.addMarker(mo);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mLocation.stopPositionFetching();
     }
 
     private void updatePositionFields() {
@@ -55,6 +86,17 @@ public class MainActivity extends Activity {
     }
 
     private void setLocation() {
-        mMap.animateCamera(mLocation.getLatLngZoom(9));
+        mMap.animateCamera(mLocation.getLatLngZoom(10));
+    }
+
+    @Override
+    public void updateLocation() {
+        updatePositionFields();
+        setBoatMarker();
+
+        if(!mHasGottenFirstLocationUpdate) {
+            setLocation();
+            mHasGottenFirstLocationUpdate = true;
+        }
     }
 }

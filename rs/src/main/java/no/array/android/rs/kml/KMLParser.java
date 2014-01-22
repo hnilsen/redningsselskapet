@@ -1,4 +1,4 @@
-package no.array.android.rs;
+package no.array.android.rs.kml;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -37,6 +37,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import no.array.android.rs.MainActivity;
+import no.array.android.rs.R;
 import no.array.android.rs.model.Document;
 import no.array.android.rs.model.Kml;
 import no.array.android.rs.model.Placemark;

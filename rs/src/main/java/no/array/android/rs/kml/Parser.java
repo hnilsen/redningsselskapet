@@ -1,4 +1,4 @@
-package no.array.android.rs;
+package no.array.android.rs.kml;
 
 import android.util.Log;
 
