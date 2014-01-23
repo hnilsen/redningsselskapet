@@ -39,11 +39,16 @@ public class MainActivity extends Activity implements RefreshLocationListener {
 
         if (mMap == null) {
             mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+
             // my position might not be necessary
-            //mMap.setMyLocationEnabled(true);
-            KMLParser.updateData(mMap, this);
-            updatePositionFields();
+            mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setCompassEnabled(true);
         }
+        KMLParser.updateData(mMap, this);
+
+        mLocation.startPositionFetching();
+
+        updatePositionFields();
     }
 
     private void setBoatMarker() {
@@ -91,7 +96,7 @@ public class MainActivity extends Activity implements RefreshLocationListener {
     @Override
     public void updateLocation() {
         updatePositionFields();
-        setBoatMarker();
+        //setBoatMarker();
 
         if(!mHasGottenFirstLocationUpdate) {
             setLocation();

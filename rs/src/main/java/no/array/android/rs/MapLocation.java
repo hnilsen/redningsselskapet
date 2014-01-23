@@ -69,13 +69,12 @@ public class MapLocation implements LocationListener,
         mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
 
         mLocationClient = new LocationClient(mContext, this, this);
-        startPositionFetching();
     }
 
     private void updatePosition() {
         Criteria criteria = new Criteria();
+        Location location = mLocationManager.getLastKnownLocation(mLocationManager.getBestProvider(criteria, true));
 
-        Location location = mLocationManager.getLastKnownLocation(mLocationManager.getBestProvider(criteria, false));
         mLat = location.getLatitude();
         mLong = location.getLongitude();
         mAccuracy = location.getAccuracy();
