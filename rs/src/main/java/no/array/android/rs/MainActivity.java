@@ -1,7 +1,9 @@
 package no.array.android.rs;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -13,6 +15,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import no.array.android.rs.interfaces.RefreshLocationListener;
 import no.array.android.rs.kml.KMLParser;
+import no.array.android.rs.map.MapLocation;
 
 /**
  * Created by hakon on 19.01.14.
@@ -72,6 +75,21 @@ public class MainActivity extends Activity implements RefreshLocationListener {
     }
 
     private void updatePositionFields() {
+        RelativeLayout location = (RelativeLayout) findViewById(R.id.location_frame);
+
+        // get the center for the clipping circle
+        int cx = (location.getLeft() + location.getRight()) / 2;
+        int cy = (location.getTop() + location.getBottom()) / 2;
+
+        // get the final radius for the clipping circle
+        int finalRadius = location.getWidth();
+
+        // create and start the animator for this view
+        // (the start radius is zero)
+        // TODO This doesn't work, since ViewAnimationUtils is mossing from the SDK
+        ValueAnimator anim = ViewAnimationUtils.createCircularReveal(location, cx, cy, 0, finalRadius);
+        anim.start();
+
         TextView lat = (TextView) findViewById(R.id.location_lat);
         TextView lng = (TextView) findViewById(R.id.location_long);
         TextView acc = (TextView) findViewById(R.id.location_accuracy);

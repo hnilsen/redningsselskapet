@@ -1,4 +1,4 @@
-package no.array.android.rs;
+package no.array.android.rs.map;
 
 import android.content.Context;
 import android.location.Criteria;
