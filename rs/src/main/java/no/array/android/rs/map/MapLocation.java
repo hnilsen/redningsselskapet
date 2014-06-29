@@ -75,10 +75,12 @@ public class MapLocation implements LocationListener,
         Criteria criteria = new Criteria();
         Location location = mLocationManager.getLastKnownLocation(mLocationManager.getBestProvider(criteria, true));
 
-        mLat = location.getLatitude();
-        mLong = location.getLongitude();
-        mAccuracy = location.getAccuracy();
-        mHeight = location.getAltitude();
+        if(location != null) {
+            mLat = location.getLatitude();
+            mLong = location.getLongitude();
+            mAccuracy = location.getAccuracy();
+            mHeight = location.getAltitude();
+        }
     }
 
     public LatLng getLatLng() {

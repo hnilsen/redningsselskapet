@@ -1,10 +1,14 @@
 package no.array.android.rs;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.view.ViewAnimationUtils;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -75,21 +79,33 @@ public class MainActivity extends Activity implements RefreshLocationListener {
     }
 
     private void updatePositionFields() {
-        RelativeLayout location = (RelativeLayout) findViewById(R.id.location_frame);
+        final RelativeLayout location = (RelativeLayout) findViewById(R.id.location_frame);
 
-        // get the center for the clipping circle
+        ValueAnimator anim;
+/*
+        location.setVisibility(View.VISIBLE);
+// get the center for the clipping circle
         int cx = (location.getLeft() + location.getRight()) / 2;
         int cy = (location.getTop() + location.getBottom()) / 2;
 
-        // get the final radius for the clipping circle
-        int finalRadius = location.getWidth();
+// get the initial radius for the clipping circle
+        int initialRadius = location.getWidth();
 
-        // create and start the animator for this view
-        // (the start radius is zero)
-        // TODO This doesn't work, since ViewAnimationUtils is mossing from the SDK
-        ValueAnimator anim = ViewAnimationUtils.createCircularReveal(location, cx, cy, 0, finalRadius);
+// create the animation (the final radius is zero)
+        anim = ViewAnimationUtils.createCircularReveal(location, cx, cy, initialRadius, 0);
+
+// make the view invisible when the animation is done
+        anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                location.setVisibility(View.INVISIBLE);
+            }
+        });
+
+// start the animation
         anim.start();
-
+*/
         TextView lat = (TextView) findViewById(R.id.location_lat);
         TextView lng = (TextView) findViewById(R.id.location_long);
         TextView acc = (TextView) findViewById(R.id.location_accuracy);
@@ -105,6 +121,18 @@ public class MainActivity extends Activity implements RefreshLocationListener {
         lat.setText("N " + latDeg + "° " + latMin + "' " + latSec + "\"");
         lng.setText("Ø " + longDeg + "° " + longMin + "' " + longSec + "\"");
         acc.setText(mLocation.getAccuracy() + " meter");
+
+        // get the center for the clipping circle
+        int cx = (location.getLeft() + location.getRight()) / 2;
+        int cy = (location.getTop() + location.getBottom()) / 2;
+
+        // get the final radius for the clipping circle
+        int finalRadius = location.getWidth();
+
+        // create and start the animator for this view
+        // (the start radius is zero)
+        anim = ViewAnimationUtils.createCircularReveal(location, cx, cy, 0, finalRadius);
+        anim.start();
     }
 
     private void setLocation() {
